@@ -1,8 +1,9 @@
 {
 	"name": "bilibili-live-danmaku",
-	"displayName": "bilibili live danmaku",
+	"displayName": "Bilibili live danmaku",
 	"description": "Connect to the live danmaku of Bilibili",
 	"version": "0.0.1",
+	"author": "Discreater <discreater@163.com>",
 	"engines": {
 		"vscode": "^1.44.0"
 	},
@@ -10,16 +11,37 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:bilibili-live-danmaku.helloWorld"
+		"onCommand:bilibili-live-danmaku.launch"
 	],
 	"main": "./out/extension.js",
+	"license": "MIT",
 	"contributes": {
 		"commands": [
 			{
-				"command": "bilibili-live-danmaku.helloWorld",
-                "title": "Hello World"
+				"command": "bilibili-live-danmaku.launch",
+				"title": "Live Danmaku: Launch"
+			},
+			{
+				"command": "bilibili-live-danmaku.relaunch",
+				"title": "Live Danmaku: Relaunch"
+			},
+			{
+				"command": "bilibili-live-danmaku.stop",
+				"title": "Live Danmaku: Stop"
 			}
-		]
+		],
+		"configuration": {
+			"title": "BiliBili Live Danmaku",
+			"properties": {
+				"Room ID": {
+					"type": ["integer", "null"],
+					"minimum": 1,
+					"scope": "application",
+					"default": null,
+					"description": "Set the live room ID."
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
@@ -30,13 +52,14 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.44.0",
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^7.0.2",
 		"@types/node": "^13.11.0",
-		"eslint": "^6.8.0",
-		"@typescript-eslint/parser": "^2.26.0",
+		"@types/vscode": "^1.44.0",
 		"@typescript-eslint/eslint-plugin": "^2.26.0",
+		"@typescript-eslint/parser": "^2.26.0",
+		"bili-live-danmaku": "^1.0.4",
+		"eslint": "^6.8.0",
 		"glob": "^7.1.6",
 		"mocha": "^7.1.1",
 		"typescript": "^3.8.3",

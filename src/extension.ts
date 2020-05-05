@@ -1,27 +1,62 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
+import Client from "./client";
+import { COMMAND_LAUNCH, COMMAND_RELAUNCH, COMMAND_STOP, COMMAND_OPEN_LIVE_ROOM, COMMAND_UPDATE_POPULARITY } from "./constants";
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+let statusBarItem: vscode.StatusBarItem;
+
 export function activate(context: vscode.ExtensionContext) {
+  const launch = vscode.commands.registerCommand(
+    COMMAND_LAUNCH,
+    () => {
+      Client.instance.launch();
+    }
+  );
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "bilibili-live-danmaku" is now active!');
+  const relaunch = vscode.commands.registerCommand(
+    COMMAND_RELAUNCH,
+    () => {
+      Client.instance.stop();
+      Client.instance.launch();
+    }
+  );
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('bilibili-live-danmaku.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+  const stop = vscode.commands.registerCommand(
+    COMMAND_STOP,
+    () => {
+      Client.instance.stop();
+    }
+	);
+	
+	const openLiveRoom = vscode.commands.registerCommand(
+		COMMAND_OPEN_LIVE_ROOM,
+		() => {
+			Client.instance.openRoomWebsite();
+		}
+	);
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from bilibili live danmaku!');
-	});
-
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(launch, relaunch, stop);
+	
+  statusBarItem = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Left
+	);
+	statusBarItem.command = COMMAND_OPEN_LIVE_ROOM;
+  const updatePopularity = vscode.commands.registerCommand(
+    COMMAND_UPDATE_POPULARITY,
+    (popularity) => {
+      if (popularity === null) {
+        statusBarItem.hide();
+      } else {
+        statusBarItem.text = `$(person) popularity: ${popularity}`;
+        statusBarItem.show();
+      }
+    }
+  );
+	statusBarItem.hide();
+	context.subscriptions.push(statusBarItem);
+	context.subscriptions.push(updatePopularity);
 }
 
-// this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+	Client.instance.stop();
+	statusBarItem.dispose();
+}

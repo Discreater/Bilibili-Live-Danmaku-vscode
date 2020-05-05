@@ -1,6 +1,6 @@
 # bilibili-live-danmaku README
 
-This is the README for your extension "bilibili-live-danmaku". After writing up a brief description, we recommend including the following sections.
+VSCode的直播弹幕姬
 
 ## Features
 
