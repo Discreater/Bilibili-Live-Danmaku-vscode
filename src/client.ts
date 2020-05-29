@@ -8,7 +8,7 @@ export default class Client {
   static get instance(): Client {
     return Client.client ?? (Client.client = new Client(3));
   }
-  private constructor(public roomId: number) {}
+  private constructor(public roomId: number) { }
 
   private liveClient?: LiveClient;
 
@@ -18,24 +18,25 @@ export default class Client {
   }
 
   public async launch() {
-    Logger.init();
-
-    const id = workspace.getConfiguration().get<number | null>("Room ID", null);
-    if (id === null) {
+    const id = workspace.getConfiguration().get<number | null>("danmaku.Room ID", null);
+    if (id === null || isNaN(id)) {
       const inputId = await window.showInputBox({
         placeHolder: "输入房间ID",
         validateInput: value => {
-          if(!Number(value)){
+          if (!Number(value)) {
             return "请输入大于0的数字";
           }
           return null;
         }
       });
+      if (!inputId) {
+        return;
+      }
       this.roomId = Number(inputId);
-    }else{
+    } else {
       this.roomId = id;
     }
-
+    Logger.init();
     const bilibiliClient = new BilibiliClient();
     bilibiliClient.loginResponse = "true";
     this.liveClient = new LiveClient(bilibiliClient, this.roomId);
@@ -57,6 +58,9 @@ export default class Client {
           ? `[${dmk.fansMedalName} ${dmk.fansMedalLevel}] `
           : "";
         const outs = `${medal}@${dmk.nickname}: ${dmk.message}`;
+        if (dmk.message.substr(0, 2) === "!!" || dmk.message.substr(0, 2) === "！！") {
+          window.showInformationMessage(`@${dmk.nickname}: ${dmk.message.substr(2)}`);
+        }
         Logger.log(outs);
       }
     };
