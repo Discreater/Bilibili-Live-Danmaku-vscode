@@ -1,10 +1,12 @@
 # bilibili-live-danmaku README
 
-VSCode的B站直播弹幕姬
+VSCode的B站直播弹幕机
+
+已发布，[安装](https://marketplace.visualstudio.com/items?itemName=Discreater.bilibili-live-danmaku)
 
 ## Features
 
-在`OutputChannel`中显示弹幕，弹幕以双感叹号开头，会以消息形式突出显示在右下角。
+在`OutputChannel`中显示弹幕，弹幕以双感叹号开头，会以消息形式突出显示在右下角。状态栏显示人气值。
 
 ![danmaku](https://raw.githubusercontent.com/Discreater/Bilibili-Live-Danmaku-vscode/master/images/danmaku.gif)
 
