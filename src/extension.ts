@@ -25,21 +25,21 @@ export function activate(context: vscode.ExtensionContext) {
     () => {
       Client.instance.stop();
     }
-	);
-	
-	const openLiveRoom = vscode.commands.registerCommand(
-		COMMAND_OPEN_LIVE_ROOM,
-		() => {
-			Client.instance.openRoomWebsite();
-		}
-	);
+  );
 
-	context.subscriptions.push(launch, relaunch, stop);
-	
+  const openLiveRoom = vscode.commands.registerCommand(
+    COMMAND_OPEN_LIVE_ROOM,
+    () => {
+      Client.instance.openRoomWebsite();
+    }
+  );
+
+  context.subscriptions.push(launch, relaunch, stop);
+
   statusBarItem = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Left
-	);
-	statusBarItem.command = COMMAND_OPEN_LIVE_ROOM;
+  );
+  statusBarItem.command = COMMAND_OPEN_LIVE_ROOM;
   const updatePopularity = vscode.commands.registerCommand(
     COMMAND_UPDATE_POPULARITY,
     (popularity) => {
@@ -51,12 +51,12 @@ export function activate(context: vscode.ExtensionContext) {
       }
     }
   );
-	statusBarItem.hide();
-	context.subscriptions.push(statusBarItem);
-	context.subscriptions.push(updatePopularity);
+  statusBarItem.hide();
+  context.subscriptions.push(statusBarItem);
+  context.subscriptions.push(updatePopularity);
 }
 
 export function deactivate() {
-	Client.instance.stop();
-	statusBarItem.dispose();
+  Client.instance.stop();
+  statusBarItem.dispose();
 }

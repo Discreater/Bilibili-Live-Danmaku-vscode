@@ -8,7 +8,7 @@ export class Logger {
     this.showOutputChannle();
   }
 
-  static showOutputChannle(){
+  static showOutputChannle() {
     this.output?.show();
   }
 
