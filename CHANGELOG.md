@@ -4,6 +4,10 @@ All notable changes to the "bilibili-live-danmaku" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.1]
+
+- Fix unable to get popularity
+- Update dependencies
 
 ## [1.0.0]
 

@@ -1,10 +1,11 @@
-import { OutputChannel, window } from "vscode";
+import type { OutputChannel } from 'vscode';
+import { window } from 'vscode';
 
 export class Logger {
   static output?: OutputChannel;
 
   static init() {
-    this.output = this.output ?? window.createOutputChannel("live room");
+    this.output = this.output ?? window.createOutputChannel('live room');
     this.showOutputChannle();
   }
 
@@ -18,6 +19,6 @@ export class Logger {
 
   private static get timestamp(): string {
     const now = new Date();
-    return `[${now.toTimeString().split(" ")[0]}]`;
+    return `[${now.toTimeString().split(' ')[0]}]`;
   }
 }

@@ -2,10 +2,9 @@
 .vscode-test
 images/**/*.gif
 node_modules/
-out
 src
 .eslintrc.json
 *.vsix
 tsconfig.json
-webpack.config.js
 .gitignore
+.idea/

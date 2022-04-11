@@ -1,19 +1,14 @@
 {
-    "root": true,
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaVersion": 6,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "@typescript-eslint"
-    ],
-    "rules": {
-        "@typescript-eslint/class-name-casing": "warn",
-        "@typescript-eslint/semi": "warn",
-        "curly": "warn",
-        "eqeqeq": "warn",
-        "no-throw-literal": "warn",
-        "semi": "off"
-    }
+  "extends": [
+    "@antfu"
+  ],
+  "rules": {
+    "brace-style": "off",
+    "@typescript-eslint/brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    "semi": "off",
+    "@typescript-eslint/semi": ["error", "always"],
+    "no-console": "off",
+    "accessor-pairs": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }]
+  }
 }

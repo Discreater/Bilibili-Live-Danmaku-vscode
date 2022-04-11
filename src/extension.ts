@@ -1,6 +1,6 @@
-import * as vscode from "vscode";
-import Client from "./client";
-import { COMMAND_LAUNCH, COMMAND_RELAUNCH, COMMAND_STOP, COMMAND_OPEN_LIVE_ROOM, COMMAND_UPDATE_POPULARITY } from "./constants";
+import * as vscode from 'vscode';
+import Client from './client';
+import { COMMAND_LAUNCH, COMMAND_OPEN_LIVE_ROOM, COMMAND_RELAUNCH, COMMAND_STOP, COMMAND_UPDATE_POPULARITY } from './constants';
 
 let statusBarItem: vscode.StatusBarItem;
 
@@ -9,7 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
     COMMAND_LAUNCH,
     () => {
       Client.instance.launch();
-    }
+    },
   );
 
   const relaunch = vscode.commands.registerCommand(
@@ -17,27 +17,27 @@ export function activate(context: vscode.ExtensionContext) {
     () => {
       Client.instance.stop();
       Client.instance.launch();
-    }
+    },
   );
 
   const stop = vscode.commands.registerCommand(
     COMMAND_STOP,
     () => {
       Client.instance.stop();
-    }
+    },
   );
 
-  const openLiveRoom = vscode.commands.registerCommand(
+  const _openLiveRoom = vscode.commands.registerCommand(
     COMMAND_OPEN_LIVE_ROOM,
     () => {
       Client.instance.openRoomWebsite();
-    }
+    },
   );
 
   context.subscriptions.push(launch, relaunch, stop);
 
   statusBarItem = vscode.window.createStatusBarItem(
-    vscode.StatusBarAlignment.Left
+    vscode.StatusBarAlignment.Left,
   );
   statusBarItem.command = COMMAND_OPEN_LIVE_ROOM;
   const updatePopularity = vscode.commands.registerCommand(
@@ -49,7 +49,7 @@ export function activate(context: vscode.ExtensionContext) {
         statusBarItem.text = `$(person) popularity: ${popularity}`;
         statusBarItem.show();
       }
-    }
+    },
   );
   statusBarItem.hide();
   context.subscriptions.push(statusBarItem);
