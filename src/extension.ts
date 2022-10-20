@@ -8,6 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
   const launch = vscode.commands.registerCommand(
     COMMAND_LAUNCH,
     () => {
+      Client.instance.stop();
       Client.instance.launch();
     },
   );

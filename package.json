@@ -2,7 +2,7 @@
 	"name": "bilibili-live-danmaku",
 	"displayName": "Bilibili live danmaku",
 	"description": "Connect to the live danmaku of Bilibili",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"publisher": "Discreater",
 	"author": "Discreater <discreater@163.com>",
 	"engines": {
@@ -53,8 +53,8 @@
 		}
 	},
 	"scripts": {
-    "vscode:package": "pnpm vsce package --no-dependencies",
-    "vscode:publish": "pnpm vsce publish --no-dependencies",
+		"vscode:package": "pnpm vsce package --no-dependencies",
+		"vscode:publish": "pnpm vsce publish --no-dependencies",
 		"vscode:prepublish": "npm run esbuild-base -- --minify",
 		"esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
 		"esbuild": "npm run esbuild-base -- --sourcemap",
@@ -65,13 +65,13 @@
 		"pretest": "pnpm compile && pnpm lint"
 	},
 	"devDependencies": {
-		"@antfu/eslint-config": "^0.20.2",
-		"@types/node": "^16.6.1",
-		"@types/vscode": "^1.44.0",
-		"esbuild": "^0.14.34",
-		"eslint": "^8.13.0",
-		"typescript": "^4.5.5",
-		"vsce": "^2.7.0"
+		"@antfu/eslint-config": "^0.27.0",
+		"@types/node": "^18.11.2",
+		"@types/vscode": "1.44.0",
+		"esbuild": "^0.15.12",
+		"eslint": "^8.25.0",
+		"typescript": "^4.8.4",
+		"vsce": "^2.12.0"
 	},
 	"dependencies": {
 		"bili-live-danmaku": "^1.2.1"
