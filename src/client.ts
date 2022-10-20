@@ -40,6 +40,7 @@ export default class Client {
     Logger.init();
     const bilibiliClient = new BilibiliClient();
     bilibiliClient.loginResponse = 'true';
+    this.stop();
     this.liveClient = new LiveClient(bilibiliClient, this.roomId);
     this.liveClient.onClose = (reason) => {
       Logger.log('已断开连接');
