@@ -1,79 +1,81 @@
 {
-	"name": "bilibili-live-danmaku",
-	"displayName": "Bilibili live danmaku",
-	"description": "Connect to the live danmaku of Bilibili",
-	"version": "1.0.2",
-	"publisher": "Discreater",
-	"author": "Discreater <discreater@163.com>",
-	"engines": {
-		"vscode": "^1.44.0"
-	},
-	"homepage": "https://github.com/Discreater/Bilibili-Live-Danmaku-vscode#readme",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Discreater/Bilibili-Live-Danmaku-vscode"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:bilibili-live-danmaku.launch"
-	],
-	"main": "./out/main.js",
-	"license": "MIT",
-	"contributes": {
-		"commands": [
-			{
-				"command": "bilibili-live-danmaku.launch",
-				"title": "Live Danmaku: Launch"
-			},
-			{
-				"command": "bilibili-live-danmaku.relaunch",
-				"title": "Live Danmaku: Relaunch"
-			},
-			{
-				"command": "bilibili-live-danmaku.stop",
-				"title": "Live Danmaku: Stop"
-			}
-		],
-		"configuration": {
-			"title": "BiliBili Live Danmaku",
-			"properties": {
-				"danmaku.Room ID": {
-					"type": [
-						"integer",
-						"null"
-					],
-					"minimum": 1,
-					"scope": "application",
-					"default": null,
-					"description": "Set the live room ID."
-				}
-			}
-		}
-	},
-	"scripts": {
-		"vscode:package": "pnpm vsce package --no-dependencies",
-		"vscode:publish": "pnpm vsce publish --no-dependencies",
-		"vscode:prepublish": "npm run esbuild-base -- --minify",
-		"esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
-		"esbuild": "npm run esbuild-base -- --sourcemap",
-		"esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
-		"compile": "tsc -p ./",
-		"lint": "eslint src --ext ts",
-		"watch": "tsc -watch -p ./",
-		"pretest": "pnpm compile && pnpm lint"
-	},
-	"devDependencies": {
-		"@antfu/eslint-config": "^0.27.0",
-		"@types/node": "^18.11.2",
-		"@types/vscode": "1.44.0",
-		"esbuild": "^0.15.12",
-		"eslint": "^8.25.0",
-		"typescript": "^4.8.4",
-		"vsce": "^2.12.0"
-	},
-	"dependencies": {
-		"bili-live-danmaku": "^1.2.1"
-	}
+  "publisher": "Discreater",
+  "name": "bilibili-live-danmaku",
+  "displayName": "Bilibili live danmaku",
+  "version": "1.0.2",
+  "description": "Connect to the live danmaku of Bilibili",
+  "author": "Discreater <discreater@163.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/Discreater/Bilibili-Live-Danmaku-vscode#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Discreater/Bilibili-Live-Danmaku-vscode"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "engines": {
+    "vscode": "^1.44.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "bilibili-live-danmaku.launch",
+        "title": "Live Danmaku: Launch"
+      },
+      {
+        "command": "bilibili-live-danmaku.relaunch",
+        "title": "Live Danmaku: Relaunch"
+      },
+      {
+        "command": "bilibili-live-danmaku.stop",
+        "title": "Live Danmaku: Stop"
+      }
+    ],
+    "configuration": {
+      "title": "BiliBili Live Danmaku",
+      "properties": {
+        "danmaku.Room ID": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "scope": "application",
+          "default": null,
+          "description": "Set the live room ID."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test",
+    "vscode:package": "pnpm vsce package --no-dependencies",
+    "vscode:publish": "pnpm vsce publish --no-dependencies"
+  },
+  "dependencies": {
+    "@types/mocha": "^10.0.10",
+    "bili-live-danmaku": "^1.2.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^3.11.2",
+    "@types/node": "^18.19.67",
+    "@types/vscode": "1.44.0",
+    "@vscode/vsce": "^3.2.1",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.16.0",
+    "typescript": "^5.7.2"
+  }
 }
