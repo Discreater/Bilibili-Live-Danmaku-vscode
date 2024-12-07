@@ -67,7 +67,8 @@
   },
   "dependencies": {
     "@types/mocha": "^10.0.10",
-    "bili-live-danmaku": "^1.2.1"
+    "bili-live-danmaku": "^1.2.1",
+    "blive-message-listener": "^0.5.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.11.2",

@@ -17,6 +17,15 @@ export class Logger {
     this.output?.appendLine(`${this.timestamp} ${message}`);
   }
 
+  static logWithTime(message: string, time: number) {
+    const timeString = new Date(time).toTimeString().split(' ')[0];
+    this.output?.appendLine(`[${timeString}] ${message}`);
+  }
+
+  static error(message: string) {
+    this.output?.appendLine(`${this.timestamp} {Error} ${message}`);
+  }
+
   private static get timestamp(): string {
     const now = new Date();
     return `[${now.toTimeString().split(' ')[0]}]`;

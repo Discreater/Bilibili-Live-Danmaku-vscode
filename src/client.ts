@@ -1,7 +1,8 @@
-import { Uri, commands, env, window, workspace } from 'vscode';
-import { BilibiliClient, DanmakuMessage, LiveClient } from 'bili-live-danmaku';
-import { Logger } from './logger';
+import type { MessageListener, MsgHandler } from 'blive-message-listener';
+import { startListen } from 'blive-message-listener';
+import { commands, env, Uri, window, workspace } from 'vscode';
 import { COMMAND_UPDATE_POPULARITY } from './constants';
+import { Logger } from './logger';
 
 export default class Client {
   private static client?: Client;
@@ -11,7 +12,7 @@ export default class Client {
 
   private constructor(public roomId: number) { }
 
-  private liveClient?: LiveClient;
+  private liveClient?: MessageListener;
 
   public openRoomWebsite() {
     const url = `https://live.bilibili.com/${this.roomId}`;
@@ -20,7 +21,8 @@ export default class Client {
 
   public async launch() {
     const id = workspace.getConfiguration().get<number | null>('danmaku.Room ID', null);
-    if (id === null || isNaN(id)) {
+    let parsedId;
+    if (id === null || Number.isNaN(id)) {
       const inputId = await window.showInputBox({
         placeHolder: '输入房间ID',
         validateInput: (value) => {
@@ -33,42 +35,45 @@ export default class Client {
       if (!inputId)
         return;
 
-      this.roomId = Number(inputId);
+      parsedId = Number(inputId);
     } else {
-      this.roomId = id;
+      parsedId = id;
     }
+    this.roomId = parsedId;
     Logger.init();
-    const bilibiliClient = new BilibiliClient();
-    bilibiliClient.loginResponse = 'true';
-    this.liveClient = new LiveClient(bilibiliClient, this.roomId);
-    this.liveClient.onClose = (reason) => {
-      Logger.log('已断开连接');
-      Logger.log(reason.message ?? '');
-      commands.executeCommand(COMMAND_UPDATE_POPULARITY, null);
-    };
-    this.liveClient.onConnect = () => {
-      Logger.log(`连接至房间 ${this.roomId}`);
-    };
-    this.liveClient.onPopularityPacket = (popularity) => {
-      commands.executeCommand(COMMAND_UPDATE_POPULARITY, popularity);
-    };
-    this.liveClient.onCommandPacket = (command) => {
-      if (command.cmd === 'DANMU_MSG') {
-        const dmk = new DanmakuMessage(command);
-        const medal = dmk.hasFansMedal
-          ? `[${dmk.fansMedalName} ${dmk.fansMedalLevel}] `
-          : '';
-        const outs = `${medal}@${dmk.nickname}: ${dmk.message}`;
-        if (dmk.message.substr(0, 2) === '!!' || dmk.message.substr(0, 2) === '！！')
-          window.showInformationMessage(`@${dmk.nickname}: ${dmk.message.substr(2)}`);
 
-        Logger.log(outs);
-      }
+    const handler: MsgHandler = {
+      onClose: () => {
+        Logger.log('已断开连接');
+        commands.executeCommand(COMMAND_UPDATE_POPULARITY, null);
+      },
+      onError: (e) => {
+        Logger.error(e.message);
+      },
+      onOpen: () => {
+        Logger.log(`连接至房间 ${this.roomId}`);
+      },
+      onIncomeDanmu: (m) => {
+        const { content, user, timestamp } = m.body;
+        const userName = user.uname;
+        const badge = user.badge?.name;
+        const badgeFormatted = badge ? `[${badge}] ` : '';
+        if (content.startsWith('!!') || content.startsWith('！！'))
+          window.showInformationMessage(`${badgeFormatted}@${userName}: ${content.substring(2)}`);
+        const dm = `${badgeFormatted}@${userName}: ${content}`;
+        Logger.logWithTime(dm, timestamp);
+      },
+      onWatchedChange: (m) => {
+        const pop = m.body.num;
+        Logger.log(`pop ${pop}`);
+        commands.executeCommand(COMMAND_UPDATE_POPULARITY, pop);
+      },
     };
-    this.liveClient.launch();
+
+    this.liveClient = startListen(this.roomId, handler);
   }
 
   public stop() {
-    this.liveClient?.stop();
+    this.liveClient?.close();
   }
 }
