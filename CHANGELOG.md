@@ -4,6 +4,11 @@ All notable changes to the "bilibili-live-danmaku" extension will be documented 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.0]
+
+- Fix: 修复断连
+- Chore: 切换协议库
+
 ## [1.0.2]
 
 - Fix: 修复直接通过launch切换房间后，无法关闭前一个房间弹幕加载的问题. by @fearclear
