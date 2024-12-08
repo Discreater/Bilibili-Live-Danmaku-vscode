@@ -48,6 +48,24 @@
           "description": "Set the live room ID."
         }
       }
+    },
+    "views": {
+      "bilibili-live-danmaku": [
+        {
+          "id": "bilibili-live-danmaku",
+          "name": "Bilibili Live Danmaku",
+          "type": "webview"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "bilibili-live-danmaku",
+          "title": "Bilibili Live Danmaku",
+          "icon": "assets/icon.svg"
+        }
+      ]
     }
   },
   "scripts": {
@@ -71,8 +89,8 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.11.2",
-    "@types/node": "^18.19.67",
-    "@types/vscode": "1.44.0",
+    "@types/node": "^22.10.1",
+    "@types/vscode": "1.95.0",
     "@vscode/vsce": "^3.2.1",
     "esbuild": "^0.24.0",
     "eslint": "^9.16.0",
