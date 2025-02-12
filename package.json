@@ -74,7 +74,7 @@
     "@types/node": "^18.19.67",
     "@types/vscode": "1.44.0",
     "@vscode/vsce": "^3.2.1",
-    "esbuild": "^0.24.0",
+    "esbuild": "^0.25.0",
     "eslint": "^9.16.0",
     "typescript": "^5.7.2"
   }
